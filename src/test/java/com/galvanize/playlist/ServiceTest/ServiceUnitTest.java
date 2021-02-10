@@ -31,7 +31,7 @@ public class ServiceUnitTest {
 
         when(repository.save(any(Playlist.class))).thenReturn(playlist);
 
-        String actualResponse = service.addPlaylist(playlist);
+        String actualResponse = service.addPlaylist(playlist).getBody();
 
         assertEquals("Playlist created successfully" , actualResponse);
 
@@ -48,11 +48,22 @@ public class ServiceUnitTest {
 
         when(repository.findAll()).thenReturn(responsePlaylist);
 
-        String actualResponse = service.addPlaylist(playlist2);
+        String actualResponse = service.addPlaylist(playlist2).getBody();
 
         assertEquals("Playlist creation is unsuccessful" , actualResponse);
 
         verify(repository,times(1)).findAll();
+    }
+
+    @Test
+    public void addPlaylistWithNoName(){
+
+        Playlist playlist = new Playlist();
+
+        String actualResponse = service.addPlaylist(playlist).getBody();
+
+        assertEquals("Playlist Name is Required" , actualResponse);
+
     }
 
 }

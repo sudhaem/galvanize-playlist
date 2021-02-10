@@ -17,3 +17,11 @@ include::{snippets}/addPlaylistWithExistingName/http-request.adoc[]
 
 .response
 include::{snippets}/addPlaylistWithExistingName/http-response.adoc[]
+
+Add New Playlist With No Name
+
+.request
+include::{snippets}/addPlaylistWithNoName/http-request.adoc[]
+
+.response
+include::{snippets}/addPlaylistWithNoName/http-response.adoc[]

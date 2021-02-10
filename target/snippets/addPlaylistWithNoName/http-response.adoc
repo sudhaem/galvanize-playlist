@@ -2,7 +2,7 @@
 ----
 HTTP/1.1 406 Not Acceptable
 Content-Type: text/plain;charset=UTF-8
-Content-Length: 33
+Content-Length: 25
 
-Playlist creation is unsuccessful
+Playlist Name is Required
 ----

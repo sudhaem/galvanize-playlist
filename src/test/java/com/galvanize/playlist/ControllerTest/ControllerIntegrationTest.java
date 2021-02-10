@@ -3,6 +3,7 @@ package com.galvanize.playlist.ControllerTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.galvanize.playlist.Model.Playlist;
+import com.galvanize.playlist.Repository.PlaylistRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,9 +36,13 @@ public class ControllerIntegrationTest {
 
     private Playlist playlist;
 
+    @Autowired
+    private PlaylistRepository repository;
+
     @BeforeEach
     public void setUp(){
         playlist = new Playlist();
+        repository.deleteAll();
     }
 
     @Test
@@ -57,6 +62,7 @@ public class ControllerIntegrationTest {
                 .andDo(document("addPlaylist"));
 
     }
+
     @Test
     public void createPlaylistWithExistingName() throws Exception {
         playlist = new Playlist("Wednesday jam");
@@ -76,12 +82,23 @@ public class ControllerIntegrationTest {
                 .perform(post("/api/playlist/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(postedJson2))
-                .andExpect(status().isCreated())
+                .andExpect(status().isNotAcceptable())
                 .andExpect(content().string("Playlist creation is unsuccessful"))
                 .andDo(document("addPlaylistWithExistingName"));
+        }
 
+    @Test
+    public void test_addingPlaylistWithOutName() throws Exception {
 
+        String postedJson = objectMapper.writeValueAsString(playlist);
 
+        mockMvc
+                .perform(post("/api/playlist/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postedJson))
+                .andExpect(status().isNotAcceptable())
+                .andExpect(content().string("Playlist Name is Required"))
+                .andDo(document("addPlaylistWithNoName"));
 
     }
 
