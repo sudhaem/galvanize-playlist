@@ -1,0 +1,11 @@
+= Playlist Service API
+
+
+
+Add New Playlist
+
+.request
+include::{snippets}/addPlaylist/http-request.adoc[]
+
+.response
+include::{snippets}/addPlaylist/http-response.adoc[]
