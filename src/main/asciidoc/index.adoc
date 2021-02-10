@@ -25,3 +25,27 @@ include::{snippets}/addPlaylistWithNoName/http-request.adoc[]
 
 .response
 include::{snippets}/addPlaylistWithNoName/http-response.adoc[]
+
+Add Song to the playlist
+
+.request
+include::{snippets}/addSongToThePlaylist/http-request.adoc[]
+
+.response
+include::{snippets}/addSongToThePlaylist/http-response.adoc[]
+
+Delete Song to the playlist
+
+.request
+include::{snippets}/deleteSongFromPlaylist/http-request.adoc[]
+
+.response
+include::{snippets}/deleteSongFromPlaylist/http-response.adoc[]
+
+Get Songs from the playlist
+
+.request
+include::{snippets}/getAllSongsFromPlaylist/http-request.adoc[]
+
+.response
+include::{snippets}/getAllSongsFromPlaylist/http-response.adoc[]

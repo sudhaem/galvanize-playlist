@@ -2,5 +2,5 @@
 ----
 $ curl 'http://localhost:8080/api/playlist/add' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
-    -d '{"playlistId":null,"name":null}'
+    -d '{"playlistId":null,"name":null,"songList":[]}'
 ----

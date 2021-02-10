@@ -44,4 +44,17 @@ public class PlaylistService {
             return null;
         }
     }
+
+    public void deleteSongFromPlaylist(String playlistName, Song song) {
+        Playlist playlist = repository.findByName(playlistName);
+        if(playlist!=null) {
+            playlist.getSongList().remove(song);
+        }
+    }
+
+    public List<Song> getAllSongsFromPlaylist(String playlistName) {
+        Playlist playlist = repository.findByName(playlistName);
+        System.out.println(playlist.getSongList().size());
+        return playlist.getSongList();
+    }
 }

@@ -1,0 +1,6 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/api/playlist/delete-song/new%20songs' -i -X DELETE \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -d '{"songName":"Bye","artistName":"Amir"}'
+----

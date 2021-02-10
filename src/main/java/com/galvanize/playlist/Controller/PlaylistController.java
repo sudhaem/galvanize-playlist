@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/playlist")
 public class PlaylistController {
@@ -25,6 +27,17 @@ public class PlaylistController {
     public Playlist addSongToPlaylist(@PathVariable String playlistName, @RequestBody Song song){
         return this.service.addSongToPlaylist(playlistName, song);
     }
+
+    @DeleteMapping("/delete-song/{playlistName}")
+    public void deleteSong(@PathVariable String playlistName, @RequestBody Song song){
+        this.service.deleteSongFromPlaylist(playlistName,song);
+    }
+
+    @GetMapping("/get-songs/{playlistName}")
+    public List<Song> getSongsFromPlaylist(@PathVariable String playlistName){
+        return this.service.getAllSongsFromPlaylist(playlistName);
+    }
+
 
 
 }

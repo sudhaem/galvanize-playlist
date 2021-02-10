@@ -23,8 +23,7 @@ import static org.hamcrest.Matchers.hasValue;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
@@ -135,11 +134,97 @@ public class ControllerIntegrationTest {
                         .content(postedJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.songList",hasSize(1)))
-                .andExpect(jsonPath("$.songList.[0].songName").value(postedSong.getSongName()));
+                .andExpect(jsonPath("$.songList.[0].songName").value(postedSong.getSongName()))
+                .andDo(document("addSongToThePlaylist"));
     }
 
     @Test
-    public void deleteASongFromPlaylist(){
+    public void deleteASongFromPlaylist() throws Exception {
+
+        Playlist playlist = new Playlist("new songs");
+
+        String postedPlaylist = objectMapper.writeValueAsString(playlist);
+
+        mockMvc
+                .perform(post("/api/playlist/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postedPlaylist))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("Playlist created successfully"));
+
+
+
+        Song postedSong = songs.get(0);
+
+        String postedJson = objectMapper.writeValueAsString(postedSong);
+
+        mockMvc
+                .perform(post("/api/playlist/add-song/" + playlist.getName())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postedJson))
+                .andExpect(status().isOk());
+
+        Song postedSong2 = songs.get(1);
+
+        String postedJson2 = objectMapper.writeValueAsString(postedSong2);
+
+        mockMvc
+                .perform(post("/api/playlist/add-song/" + playlist.getName())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postedJson2))
+                .andExpect(status().isOk());
+
+        mockMvc
+                .perform(delete("/api/playlist/delete-song/" + playlist.getName())
+                .contentType(MediaType.APPLICATION_JSON)
+                        .content(postedJson2))
+                .andExpect(status().isOk())
+                .andDo(document("deleteSongFromPlaylist"));
+
+
+
+    }
+
+    @Test
+    public void getAllSongsFromPlaylist() throws Exception {
+
+        Playlist playlist = new Playlist("new songs");
+
+        String postedPlaylist = objectMapper.writeValueAsString(playlist);
+
+        mockMvc
+                .perform(post("/api/playlist/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postedPlaylist))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("Playlist created successfully"));
+
+
+
+        Song postedSong = songs.get(0);
+
+        String postedJson = objectMapper.writeValueAsString(postedSong);
+
+        mockMvc
+                .perform(post("/api/playlist/add-song/" + playlist.getName())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postedJson))
+                .andExpect(status().isOk());
+
+        Song postedSong2 = songs.get(1);
+
+        String postedJson2 = objectMapper.writeValueAsString(postedSong2);
+
+        mockMvc
+                .perform(post("/api/playlist/add-song/" + playlist.getName())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postedJson2))
+                .andExpect(status().isOk());
+
+        mockMvc
+                .perform(get("/api/playlist/get-songs/" + playlist.getName()))
+                .andExpect(status().isOk())
+                .andDo(document("getAllSongsFromPlaylist"));
 
 
     }

@@ -1,0 +1,6 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/api/playlist/add-song/new%20songs' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -d '{"songName":"Hello","artistName":"Adelle"}'
+----

@@ -1,4 +1,4 @@
 [source,options="nowrap"]
 ----
-{"playlistId":null,"name":"Wednesday jam"}
+{"playlistId":null,"name":"Wednesday jam","songList":[]}
 ----

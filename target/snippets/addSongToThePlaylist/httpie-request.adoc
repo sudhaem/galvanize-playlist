@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ echo '{"songName":"Hello","artistName":"Adelle"}' | http POST 'http://localhost:8080/api/playlist/add-song/new%20songs' \
+    'Content-Type:application/json;charset=UTF-8'
+----

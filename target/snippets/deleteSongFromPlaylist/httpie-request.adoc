@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ echo '{"songName":"Bye","artistName":"Amir"}' | http DELETE 'http://localhost:8080/api/playlist/delete-song/new%20songs' \
+    'Content-Type:application/json;charset=UTF-8'
+----
