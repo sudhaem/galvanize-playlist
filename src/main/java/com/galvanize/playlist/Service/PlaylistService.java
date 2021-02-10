@@ -1,6 +1,7 @@
 package com.galvanize.playlist.Service;
 
 import com.galvanize.playlist.Model.Playlist;
+import com.galvanize.playlist.Model.Song;
 import com.galvanize.playlist.Repository.PlaylistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,5 +33,15 @@ public class PlaylistService {
         repository.save(playlist);
 
         return new ResponseEntity<>("Playlist created successfully", HttpStatus.CREATED);
+    }
+
+    public Playlist addSongToPlaylist(String playlistName, Song song) {
+        Playlist foundPlaylist = repository.findByName(playlistName);
+        if(foundPlaylist!=null){
+            foundPlaylist.addSongToPlaylist(song);
+            return foundPlaylist;
+        }else{
+            return null;
+        }
     }
 }

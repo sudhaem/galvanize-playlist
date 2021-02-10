@@ -3,6 +3,7 @@ package com.galvanize.playlist.ControllerTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.galvanize.playlist.Model.Playlist;
+import com.galvanize.playlist.Model.Song;
 import com.galvanize.playlist.Repository.PlaylistRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.hasValue;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -36,6 +41,8 @@ public class ControllerIntegrationTest {
 
     private Playlist playlist;
 
+    private List<Song> songs;
+
     @Autowired
     private PlaylistRepository repository;
 
@@ -43,6 +50,8 @@ public class ControllerIntegrationTest {
     public void setUp(){
         playlist = new Playlist();
         repository.deleteAll();
+        songs = List.of(new Song("Hello", "Adelle"), new Song("Bye", "Amir"));
+
     }
 
     @Test
@@ -99,6 +108,39 @@ public class ControllerIntegrationTest {
                 .andExpect(status().isNotAcceptable())
                 .andExpect(content().string("Playlist Name is Required"))
                 .andDo(document("addPlaylistWithNoName"));
+
+    }
+    @Test
+    public void addSongToThePlaylist() throws Exception {
+        Playlist playlist = new Playlist("new songs");
+
+        String postedPlaylist = objectMapper.writeValueAsString(playlist);
+
+        mockMvc
+                .perform(post("/api/playlist/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postedPlaylist))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("Playlist created successfully"));
+
+
+
+        Song postedSong = songs.get(0);
+
+        String postedJson = objectMapper.writeValueAsString(postedSong);
+
+        mockMvc
+                .perform(post("/api/playlist/add-song/" + playlist.getName())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postedJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.songList",hasSize(1)))
+                .andExpect(jsonPath("$.songList.[0].songName").value(postedSong.getSongName()));
+    }
+
+    @Test
+    public void deleteASongFromPlaylist(){
+
 
     }
 

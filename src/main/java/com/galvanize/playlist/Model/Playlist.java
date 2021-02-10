@@ -1,9 +1,8 @@
 package com.galvanize.playlist.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Playlist {
@@ -12,6 +11,16 @@ public class Playlist {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long playlistId;
     private String name;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Song> songList = new ArrayList<>();
+
+    public List<Song> getSongList() {
+        return songList;
+    }
+
+    public void setSongList(List<Song> songList) {
+        this.songList = songList;
+    }
 
     public Playlist(){
 
@@ -35,5 +44,9 @@ public class Playlist {
 
     public Playlist(String name) {
         this.name = name;
+    }
+
+    public void addSongToPlaylist(Song song) {
+        this.songList.add(song);
     }
 }

@@ -1,6 +1,7 @@
 package com.galvanize.playlist.Controller;
 
 import com.galvanize.playlist.Model.Playlist;
+import com.galvanize.playlist.Model.Song;
 import com.galvanize.playlist.Service.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,4 +20,11 @@ public class PlaylistController {
     public ResponseEntity<String> addPlaylist(@RequestBody  Playlist playlist){
         return this.service.addPlaylist(playlist);
     }
+
+    @PostMapping("/add-song/{playlistName}")
+    public Playlist addSongToPlaylist(@PathVariable String playlistName, @RequestBody Song song){
+        return this.service.addSongToPlaylist(playlistName, song);
+    }
+
+
 }
