@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -35,4 +37,22 @@ public class ServiceUnitTest {
 
         verify(repository,times(1)).save(playlist);
     }
+    @Test
+    public void addPlaylistWithExistingName(){
+
+        Playlist playlist = new Playlist("funk");
+        Playlist playlist2 = new Playlist("funk");
+
+        List<Playlist> responsePlaylist = List.of(playlist);
+
+
+        when(repository.findAll()).thenReturn(responsePlaylist);
+
+        String actualResponse = service.addPlaylist(playlist2);
+
+        assertEquals("Playlist creation is unsuccessful" , actualResponse);
+
+        verify(repository,times(1)).findAll();
+    }
+
 }

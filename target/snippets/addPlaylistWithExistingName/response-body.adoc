@@ -1,0 +1,4 @@
+[source,options="nowrap"]
+----
+Playlist creation is unsuccessful
+----

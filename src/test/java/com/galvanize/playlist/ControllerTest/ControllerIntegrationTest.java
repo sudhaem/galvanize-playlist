@@ -57,5 +57,32 @@ public class ControllerIntegrationTest {
                 .andDo(document("addPlaylist"));
 
     }
+    @Test
+    public void createPlaylistWithExistingName() throws Exception {
+        playlist = new Playlist("Wednesday jam");
+        Playlist playlist2 = new Playlist("Wednesday jam");
+
+        String postedJson = objectMapper.writeValueAsString(playlist);
+        String postedJson2 = objectMapper.writeValueAsString(playlist2);
+
+        mockMvc
+                .perform(post("/api/playlist/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postedJson))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("Playlist created successfully"));
+
+        mockMvc
+                .perform(post("/api/playlist/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postedJson2))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("Playlist creation is unsuccessful"))
+                .andDo(document("addPlaylistWithExistingName"));
+
+
+
+
+    }
 
 }

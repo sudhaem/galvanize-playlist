@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ echo '{"playlistId":null,"name":"Wednesday jam"}' | http POST 'http://localhost:8080/api/playlist/add' \
+    'Content-Type:application/json;charset=UTF-8'
+----

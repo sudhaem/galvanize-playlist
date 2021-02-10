@@ -16,6 +16,23 @@ public class Playlist {
     public Playlist(){
 
     }
+
+    public Long getPlaylistId() {
+        return playlistId;
+    }
+
+    public void setPlaylistId(Long playlistId) {
+        this.playlistId = playlistId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Playlist(String name) {
         this.name = name;
     }
